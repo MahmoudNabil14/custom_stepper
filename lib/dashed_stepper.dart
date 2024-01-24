@@ -7,7 +7,7 @@ class DashedStepper extends StatelessWidget {
     super.key,
     this.steps = 3,
     this.currentStep = 0,
-    this.icons,
+    this.topStepsWidgets,
     this.height,
     this.labelStyle,
     this.indicatorColor,
@@ -17,12 +17,12 @@ class DashedStepper extends StatelessWidget {
     required this.activeWidget,
     required this.inActiveWidget,
     required this.finishedWidget,
-  }) : assert((icons == null || icons.length == steps),
-            'icons length must be the same as length');
+  }) : assert((topStepsWidgets == null || topStepsWidgets.length == steps),
+  'Top line widgets length must be the same as length');
 
   final int steps;
   final int currentStep;
-  final List<Widget>? icons;
+  final List<Widget>? topStepsWidgets;
   final double? height;
   final TextStyle? labelStyle;
   final Color? indicatorColor;
@@ -40,16 +40,16 @@ class DashedStepper extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(
           steps,
-          (index) {
+              (index) {
             return Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (icons != null)
+                  if (topStepsWidgets != null)
                     Container(
                       height: height ?? 40,
                       alignment: Alignment.topCenter,
-                      child: icons![index],
+                      child: topStepsWidgets![index],
                     ),
                   _HorizStep(
                     dotSize: dotSize,
@@ -62,13 +62,13 @@ class DashedStepper extends StatelessWidget {
                     roundedLeft: index == 0
                         ? true
                         : index < currentStep
-                            ? false
-                            : true,
+                        ? false
+                        : true,
                     roundedRight: index == steps - 1
                         ? true
                         : index < currentStep - 1
-                            ? false
-                            : true,
+                        ? false
+                        : true,
                     activeWidget: activeWidget,
                     inActiveWidget: inActiveWidget,
                     finishedWidget: finishedWidget,
@@ -129,7 +129,7 @@ class _HorizStep extends StatelessWidget {
               height: height,
             ),
             _Line(
-              width: stepLinesWidth / 4,
+              width: stepLinesWidth / 2,
               isActive: right,
               roundedRight: roundedRight,
               color: activeColor,
